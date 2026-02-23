@@ -21,6 +21,76 @@ export function Hero() {
     const meteors = stars.querySelectorAll('.meteor')
     const planetElements = planets.querySelectorAll('.planet')
 
+    const supportsFinePointer = window.matchMedia?.('(pointer: fine)')?.matches
+    let rafId: number | null = null
+    let lastPointerX = 0
+    let lastPointerY = 0
+
+    const repulsionStars = Array.from(stars.querySelectorAll<HTMLElement>('.repel-star')).map((el) => {
+      const parent = el.parentElement as HTMLElement | null
+      const size = Number(el.dataset.size || '1')
+      return {
+        el,
+        parent,
+        size,
+        strength: 0.7 + Math.random() * 0.6,
+      }
+    })
+
+    const applyRepulsion = () => {
+      rafId = null
+      const starsRect = stars.getBoundingClientRect()
+      const x = lastPointerX - starsRect.left
+      const y = lastPointerY - starsRect.top
+
+      const radius = 180
+      const maxTranslate = 28
+
+      for (const s of repulsionStars) {
+        if (!s.parent) continue
+
+        const cx = s.parent.offsetLeft + s.size / 2
+        const cy = s.parent.offsetTop + s.size / 2
+        const dx = cx - x
+        const dy = cy - y
+        const dist = Math.sqrt(dx * dx + dy * dy) || 0.0001
+
+        if (dist >= radius) {
+          s.el.style.transform = 'translate3d(0px, 0px, 0)'
+          continue
+        }
+
+        const falloff = 1 - dist / radius
+        const push = maxTranslate * falloff * s.strength
+        const tx = (dx / dist) * push
+        const ty = (dy / dist) * push
+
+        s.el.style.transform = `translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0)`
+      }
+    }
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (!supportsFinePointer) return
+      lastPointerX = e.clientX
+      lastPointerY = e.clientY
+      if (rafId != null) return
+      rafId = window.requestAnimationFrame(applyRepulsion)
+    }
+
+    const onPointerLeave = () => {
+      if (!supportsFinePointer) return
+      if (rafId != null) {
+        window.cancelAnimationFrame(rafId)
+        rafId = null
+      }
+      for (const s of repulsionStars) {
+        s.el.style.transform = 'translate3d(0px, 0px, 0)'
+      }
+    }
+
+    section.addEventListener('pointermove', onPointerMove)
+    section.addEventListener('pointerleave', onPointerLeave)
+
     shiningStars.forEach((star) => {
       const el = star as HTMLElement
       
@@ -84,6 +154,14 @@ export function Hero() {
     })
 
     return () => {
+      section.removeEventListener('pointermove', onPointerMove)
+      section.removeEventListener('pointerleave', onPointerLeave)
+
+      if (rafId != null) {
+        window.cancelAnimationFrame(rafId)
+        rafId = null
+      }
+
       ScrollTrigger.getAll().forEach(trigger => {
         if (trigger.vars.trigger === section) {
           trigger.kill()
@@ -132,18 +210,25 @@ export function Hero() {
           ) : (
             <div
               key={star.id}
-              className="shining-star absolute rounded-full bg-cyan-300 will-change-transform"
+              className="shining-star absolute will-change-transform"
               style={{
-                width: `${star.size}px`,
-                height: `${star.size}px`,
                 top: star.top,
                 left: star.left,
-                opacity: star.opacity,
-                animation: `twinkle ${star.duration}s ease-in-out infinite`,
-                animationDelay: `${star.delay}s`,
-                boxShadow: star.size >= 2 ? `0 0 ${star.size * 2}px rgba(34, 211, 238, 0.6)` : 'none',
               }}
-            />
+            >
+              <div
+                className="repel-star rounded-full bg-cyan-300 will-change-transform"
+                data-size={star.size}
+                style={{
+                  width: `${star.size}px`,
+                  height: `${star.size}px`,
+                  opacity: star.opacity,
+                  animation: `twinkle ${star.duration}s ease-in-out infinite`,
+                  animationDelay: `${star.delay}s`,
+                  boxShadow: star.size >= 2 ? `0 0 ${star.size * 2}px rgba(34, 211, 238, 0.6)` : 'none',
+                }}
+              />
+            </div>
           )
         )}
       </div>
