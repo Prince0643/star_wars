@@ -19,7 +19,7 @@ export function CosmicStory() {
             </div>
           </div>
           <div className="flex-1 text-center md:text-left">
-            <h2 className="text-3xl font-semibold">Cosmic Story</h2>
+            <h2 className="text-3xl font-semibold">About Me</h2>
             <p className="mt-4 max-w-3xl text-slate-600">
               I ship web & mobile products end-to-end, and I love the messy middle: integrating CRMs,
               automating operations, and building reliable data flows.

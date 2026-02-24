@@ -216,7 +216,7 @@ export function TechGalaxies() {
       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_10px_rgba(34,211,238,0.8),0_0_20px_rgba(34,211,238,0.6)]" />
 
       <div className="relative mx-auto max-w-6xl px-4">
-        <h2 className="text-3xl font-semibold text-white">Technology Galaxies</h2>
+        <h2 className="text-3xl font-semibold text-white">Tech Stack</h2>
         <p className="mt-4 max-w-3xl text-white/60">
           A curated snapshot of the stacks I use to build apps, integrations, and automations.
         </p>

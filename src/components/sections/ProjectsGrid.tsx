@@ -61,32 +61,34 @@ export function ProjectsGrid({ projects }: Props) {
     const trackEl = trackRef.current
 
     const ctx = gsap.context(() => {
-      const slideWidthPercent = 42 // 40% width + ~2% gap
-      const totalWidthPercent = slideWidthPercent * projects.length
-      const scrollDistance = totalWidthPercent - 100 // How much needs to scroll past viewport
+      const mm = gsap.matchMedia()
+      
+      mm.add('(min-width: 768px)', () => {
+        const slideWidthPercent = 42 // 40% width + ~2% gap
+        const totalWidthPercent = slideWidthPercent * projects.length
+        const scrollDistance = totalWidthPercent - 100 // How much needs to scroll past viewport
 
-      const tween = gsap.to(trackEl, {
-        xPercent: -scrollDistance,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionEl,
-          start: 'top top',
-          end: () => `+=${window.innerWidth * 0.6}`,
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
+        const tween = gsap.to(trackEl, {
+          xPercent: -scrollDistance,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionEl,
+            start: 'top top',
+            end: () => `+=${window.innerWidth * 0.6}`,
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        })
+
+        return () => {
+          tween.scrollTrigger?.kill()
+          tween.kill()
+        }
       })
 
-      const slides = Array.from(trackEl.querySelectorAll<HTMLElement>('.project-slide'))
-      // No per-slide animations - plain static cards
-      void slides
-
-      return () => {
-        tween.scrollTrigger?.kill()
-        tween.kill()
-      }
+      return () => mm.revert()
     }, sectionEl)
 
     return () => ctx.revert()
@@ -190,14 +192,14 @@ export function ProjectsGrid({ projects }: Props) {
             ))}
           </div>
         ) : (
-          <div className="mt-12 overflow-hidden">
-            <div ref={trackRef} className="flex will-change-transform">
+          <div className="mt-12">
+            <div ref={trackRef} className="flex flex-col gap-6 md:flex-row">
               {projects.map((p) => (
-                <div key={p.id} className="project-slide w-[40%] flex-shrink-0 pr-4">
+                <div key={p.id} className="project-slide w-full md:w-[40%] md:flex-shrink-0 md:pr-4">
                   <article 
                     className="project-card group relative h-full w-full rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all duration-300 hover:border-cyan-400/50 hover:bg-white/10 md:p-10"
                   >
-                    <div className="flex flex-col gap-6 pl-6 md:flex-row md:items-start md:justify-between">
+                    <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between md:pl-6">
                       <div className="min-w-0">
                         <h3 className="text-2xl font-medium text-white transition-colors group-hover:text-cyan-300">{p.name}</h3>
                         <div className="mt-1 text-sm text-white/50">{p.year}</div>
@@ -210,7 +212,7 @@ export function ProjectsGrid({ projects }: Props) {
                       </div>
                     </div>
 
-                    <div className="mt-6 pl-6">
+                    <div className="mt-6 md:pl-6">
                       <a 
                         href={p.url} 
                         target="_blank" 
@@ -226,7 +228,7 @@ export function ProjectsGrid({ projects }: Props) {
                       </a>
                     </div>
 
-                    <ul className="mt-6 space-y-2 pl-6 text-sm text-white/50">
+                    <ul className="mt-6 space-y-2 text-sm text-white/50 md:pl-6">
                       {p.highlights.slice(0, 3).map((h) => (
                         <li key={h} className="flex items-start gap-2">
                           <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-cyan-400" />
@@ -239,7 +241,7 @@ export function ProjectsGrid({ projects }: Props) {
               ))}
             </div>
 
-            <div className="mt-6 text-center text-sm text-white/40">
+            <div className="mt-6 hidden text-center text-sm text-white/40 md:block">
               Scroll to explore • {projects.length} projects
             </div>
           </div>

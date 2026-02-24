@@ -51,7 +51,7 @@ export function AutomationNebula({ workflows }: Props) {
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 shadow-[0_0_30px_rgba(34,211,238,0.4)]">
             <span className="text-lg">⚡</span>
           </div>
-          <h2 className="text-3xl font-semibold text-white">Automation Nebula</h2>
+          <h2 className="text-3xl font-semibold text-white">Automation Projects</h2>
           <p className="mx-auto mt-4 max-w-2xl text-white/60">
             Automation is leverage. I build workflows that are observable, retriable, and safe.
           </p>
