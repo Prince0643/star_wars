@@ -1,6 +1,26 @@
 const systems = ['GoHighLevel', 'HubSpot', 'Kajabi', 'Karta', 'WordPress']
 
 export function CRMCluster() {
+  const stars = Array.from({ length: 60 }, (_, i) => {
+    const seeded = (n: number) => {
+      const x = Math.sin(n * 9999) * 10000
+      return x - Math.floor(x)
+    }
+
+    const top = seeded(i + 1) * 100
+    const left = seeded(i + 2) * 100
+    const opacity = 0.2 + seeded(i + 3) * 0.8
+
+    return {
+      id: i,
+      style: {
+        top: `${top}%`,
+        left: `${left}%`,
+        opacity,
+      } as const,
+    }
+  })
+
   return (
     <section id="integrations" className="relative overflow-hidden bg-black py-20 text-white">
       {/* Deep space background - continuing from Projects */}
@@ -8,15 +28,11 @@ export function CRMCluster() {
       
       {/* Stars */}
       <div className="absolute inset-0">
-        {[...Array(60)].map((_, i) => (
+        {stars.map((s) => (
           <div
-            key={i}
+            key={s.id}
             className="absolute h-px w-px rounded-full bg-white"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              opacity: 0.2 + Math.random() * 0.8,
-            }}
+            style={s.style}
           />
         ))}
       </div>

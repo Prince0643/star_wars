@@ -39,7 +39,7 @@ export function Contact() {
               <animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" begin="1.2s" repeatCount="indefinite" />
             </circle>
             {/* UFO outer glow */}
-            <ellipse cx="50" cy="35" rx="55" ry="25" fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.2">
+            <ellipse cx="50" cy="35" rx="55" ry="25" fill="none" stroke="#22d3ee" strokeWidth={2} opacity={0.2}>
               <animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" repeatCount="indefinite" />
             </ellipse>
             <defs>

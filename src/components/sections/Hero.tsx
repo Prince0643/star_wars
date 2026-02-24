@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -9,6 +9,32 @@ export function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
   const starsRef = useRef<HTMLDivElement>(null)
   const planetsRef = useRef<HTMLDivElement>(null)
+
+  const stars = useMemo(() => {
+    const seeded = (n: number) => {
+      const x = Math.sin(n * 9999) * 10000
+      return x - Math.floor(x)
+    }
+
+    return Array.from({ length: 300 }, (_, i) => {
+      const isMeteor = seeded(i + 1) > 0.95
+
+      const sizeRoll = seeded(i + 2)
+      const size = isMeteor ? 2 : sizeRoll > 0.9 ? 3 : sizeRoll > 0.6 ? 2 : 1
+
+      return {
+        id: i,
+        type: isMeteor ? 'meteor' : 'shining',
+        size,
+        top: `${seeded(i + 3) * 100}%`,
+        left: `${seeded(i + 4) * 100}%`,
+        opacity: 0.3 + seeded(i + 5) * 0.7,
+        duration: isMeteor ? 1 + seeded(i + 6) * 2 : 2 + seeded(i + 7) * 4,
+        delay: isMeteor ? seeded(i + 8) * 10 : -seeded(i + 9) * 10,
+        angle: seeded(i + 10) * 45 + 15,
+      }
+    })
+  }, [])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -91,49 +117,10 @@ export function Hero() {
     section.addEventListener('pointermove', onPointerMove)
     section.addEventListener('pointerleave', onPointerLeave)
 
-    shiningStars.forEach((star) => {
-      const el = star as HTMLElement
-      
-      // Random scroll burst direction
-      const xDir = Math.random() > 0.5 ? 1 : -1
-      const yDir = Math.random() > 0.5 ? 1 : -1
-      const xMove = (Math.random() * 80 + 30) * xDir
-      const yMove = (Math.random() * 80 + 30) * yDir
-      
-      gsap.fromTo(el, 
-        { x: 0, y: 0 },
-        {
-          x: `${xMove}vw`,
-          y: `${yMove}vh`,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 0.3,
-          },
-        }
-      )
-    })
-    
-    meteors.forEach((meteor) => {
-      const el = meteor as HTMLElement
-      
-      gsap.fromTo(el,
-        { x: 0, y: 0 },
-        {
-          x: '150vw',
-          y: '150vh',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 0.1,
-          },
-        }
-      )
-    })
+    // Keep stars static on scroll (planets still move).
+    // Stars still twinkle / meteor CSS animation remains.
+    void shiningStars
+    void meteors
 
     planetElements.forEach((planet, i) => {
       const speed = 0.3 + (i % 4) * 0.15
@@ -169,21 +156,6 @@ export function Hero() {
       })
     }
   }, [])
-
-  const stars = Array.from({ length: 300 }, (_, i) => {
-    const isMeteor = Math.random() > 0.95 // 5% are meteors
-    return {
-      id: i,
-      type: isMeteor ? 'meteor' : 'shining',
-      size: isMeteor ? 2 : Math.random() > 0.9 ? 3 : Math.random() > 0.6 ? 2 : 1,
-      top: `${Math.random() * 100}%`,
-      left: `${Math.random() * 100}%`,
-      opacity: 0.3 + Math.random() * 0.7,
-      duration: isMeteor ? 1 + Math.random() * 2 : 2 + Math.random() * 4,
-      delay: isMeteor ? Math.random() * 10 : -Math.random() * 10,
-      angle: Math.random() * 45 + 15, // 15-60 degrees for meteors
-    }
-  })
 
   return (
     <section ref={sectionRef} id="hero" className="relative min-h-screen overflow-hidden bg-black" data-reveal>

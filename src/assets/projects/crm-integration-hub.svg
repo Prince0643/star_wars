@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#070a12"/>
+      <stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="node" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+
+  <g stroke="#22d3ee" stroke-opacity="0.25" stroke-width="4" fill="none">
+    <path d="M390 500 C540 360, 660 360, 800 470"/>
+    <path d="M800 470 C980 600, 1120 600, 1240 480"/>
+    <path d="M800 470 C760 300, 920 260, 1060 320"/>
+  </g>
+
+  <g filter="url(#soft)">
+    <circle cx="390" cy="500" r="70" fill="url(#node)" opacity="0.95"/>
+    <circle cx="800" cy="470" r="90" fill="url(#node)" opacity="0.95"/>
+    <circle cx="1240" cy="480" r="70" fill="url(#node)" opacity="0.95"/>
+    <circle cx="1060" cy="320" r="55" fill="url(#node)" opacity="0.75"/>
+  </g>
+
+  <g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" fill="#e2e8f0">
+    <text x="220" y="170" font-size="64" font-weight="700">CRM Integration Hub</text>
+    <text x="220" y="228" font-size="28" opacity="0.8">Sync contacts • unified dashboard • automations</text>
+  </g>
+
+  <g opacity="0.9">
+    <rect x="220" y="690" width="1160" height="110" rx="24" fill="#0b1220" stroke="#a855f7" stroke-opacity="0.25"/>
+    <rect x="270" y="728" width="340" height="14" rx="7" fill="#22d3ee" opacity="0.7"/>
+    <rect x="270" y="758" width="520" height="12" rx="6" fill="#e2e8f0" opacity="0.25"/>
+    <rect x="980" y="728" width="350" height="12" rx="6" fill="#e2e8f0" opacity="0.2"/>
+    <rect x="980" y="756" width="220" height="12" rx="6" fill="#e2e8f0" opacity="0.18"/>
+  </g>
+</svg>

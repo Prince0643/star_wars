@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050711"/>
+      <stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fb7185"/>
+      <stop offset="1" stop-color="#f97316"/>
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+
+  <g filter="url(#soft)">
+    <circle cx="520" cy="420" r="210" fill="url(#accent)" opacity="0.35"/>
+    <circle cx="620" cy="520" r="170" fill="#22d3ee" opacity="0.18"/>
+  </g>
+
+  <g opacity="0.9">
+    <rect x="250" y="250" width="560" height="420" rx="28" fill="#0b1220" stroke="#fb7185" stroke-opacity="0.18"/>
+    <rect x="300" y="310" width="460" height="14" rx="7" fill="#e2e8f0" opacity="0.25"/>
+    <rect x="300" y="350" width="320" height="14" rx="7" fill="#e2e8f0" opacity="0.22"/>
+    <rect x="300" y="420" width="440" height="120" rx="20" fill="#111827"/>
+    <rect x="330" y="450" width="180" height="14" rx="7" fill="#22d3ee" opacity="0.55"/>
+    <rect x="330" y="482" width="260" height="12" rx="6" fill="#e2e8f0" opacity="0.2"/>
+  </g>
+
+  <g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" fill="#e2e8f0">
+    <text x="860" y="420" font-size="64" font-weight="700">Field Service Pro</text>
+    <text x="860" y="478" font-size="28" opacity="0.8">Mobile ops • CRM-connected • workflows</text>
+  </g>
+</svg>

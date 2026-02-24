@@ -24,6 +24,26 @@ import {
   type SimpleIcon,
 } from 'simple-icons'
 
+const miniStars = Array.from({ length: 15 }, (_, i) => {
+  const seeded = (n: number) => {
+    const x = Math.sin(n * 9999) * 10000
+    return x - Math.floor(x)
+  }
+
+  const top = seeded(i + 1) * 100
+  const left = seeded(i + 2) * 100
+  const opacity = 0.3 + seeded(i + 3) * 0.7
+
+  return {
+    id: i,
+    style: {
+      top: `${top}%`,
+      left: `${left}%`,
+      opacity,
+    } as const,
+  }
+})
+
 const siJava = {
   title: 'Java',
   slug: 'java',
@@ -174,15 +194,11 @@ export function TechGalaxies() {
         <div className="relative h-full w-full overflow-hidden rounded-full border-4 border-white/10 bg-black shadow-[0_0_30px_rgba(34,211,238,0.2)]">
           {/* Stars */}
           <div className="absolute inset-0">
-            {[...Array(15)].map((_, i) => (
+            {miniStars.map((s) => (
               <div
-                key={i}
+                key={s.id}
                 className="absolute h-1 w-1 rounded-full bg-white"
-                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  opacity: 0.3 + Math.random() * 0.7,
-                }}
+                style={s.style}
               />
             ))}
           </div>
