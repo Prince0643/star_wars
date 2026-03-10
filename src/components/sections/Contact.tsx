@@ -157,6 +157,26 @@ export function Contact() {
                     LinkedIn
                   </a>
                 </Button>
+                <Button 
+                  asChild 
+                  variant="outline"
+                  size="sm"
+                  className="rounded-full border-cyan-400/30 bg-black/50 text-cyan-300 hover:bg-cyan-400/10"
+                >
+                  <a href="https://www.facebook.com/princechristian.tolentino.7" target="_blank" rel="noreferrer">
+                    Facebook
+                  </a>
+                </Button>
+                <Button 
+                  asChild 
+                  variant="outline"
+                  size="sm"
+                  className="rounded-full border-cyan-400/30 bg-black/50 text-cyan-300 hover:bg-cyan-400/10"
+                >
+                  <a href="https://www.instagram.com/xtian.env" target="_blank" rel="noreferrer">
+                    Instagram
+                  </a>
+                </Button>
               </div>
             </div>
           </div>
