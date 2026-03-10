@@ -57,4 +57,15 @@ export const projects: Project[] = [
     highlights: ['Project showcase', 'Skills presentation', 'Professional branding'],
     url: 'https://prince.xandree.com/',
   },
+  {
+    id: 5,
+    name: 'Knew PH',
+    type: 'web',
+    description: 'Modern web platform for Knew PH',
+    imageSrc: 'https://api.microlink.io/?url=https://knewph.xandree.com/&screenshot=true&meta=false&embed=screenshot.url&colorScheme=dark',
+    tech: [],
+    year: '2026',
+    highlights: ['Modern web platform', 'Responsive design', 'Professional web presence'],
+    url: 'https://knewph.xandree.com/',
+  },
 ]

@@ -153,7 +153,7 @@ export function Contact() {
                   size="sm"
                   className="rounded-full border-cyan-400/30 bg-black/50 text-cyan-300 hover:bg-cyan-400/10"
                 >
-                  <a href="#" aria-disabled="true" onClick={(e) => e.preventDefault()}>
+                  <a href="https://www.linkedin.com/in/prince-christian-tolentino-087128268/" target="_blank" rel="noreferrer">
                     LinkedIn
                   </a>
                 </Button>
