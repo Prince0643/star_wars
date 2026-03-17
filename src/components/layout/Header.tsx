@@ -14,7 +14,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <header className="fixed left-1/2 top-4 z-50 -translate-x-1/2" data-reveal>
+    <header className="fixed left-1/2 top-4 z-50 -translate-x-1/2">
       <nav className="relative flex items-center gap-1 rounded-full border border-cyan-400/30 bg-black/80 px-2 py-2 backdrop-blur-md shadow-[0_0_20px_rgba(34,211,238,0.15)]">
         {/* Logo/Name - inside capsule */}
         <a href="#hero" className="hidden whitespace-nowrap px-3 text-xl font-semibold tracking-wide text-cyan-100 lg:block">
