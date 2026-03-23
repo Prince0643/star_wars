@@ -68,4 +68,15 @@ export const projects: Project[] = [
     highlights: ['Modern web platform', 'Responsive design', 'Professional web presence'],
     url: 'https://knewph.xandree.com/',
   },
+  {
+    id: 6,
+    name: 'Constra',
+    type: 'web',
+    description: 'Construction management and project tracking platform',
+    imageSrc: '/uploads/constra.png',
+    tech: [],
+    year: '2026',
+    highlights: ['Project tracking', 'Construction management', 'Team coordination'],
+    url: 'https://constra.xandree.com/',
+  },
 ]
