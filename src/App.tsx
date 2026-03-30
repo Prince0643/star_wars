@@ -10,6 +10,7 @@ import { Contact } from '@/components/sections/Contact'
 import { useSectionReveal } from '@/hooks/useSectionReveal'
 import { projects } from '@/data/projects'
 import { workflows } from '@/data/workflows'
+import { ChatWidget } from '@/components/ChatWidget'
 
 function App() {
   useSectionReveal()
@@ -27,6 +28,8 @@ function App() {
         <AutomationNebula workflows={workflows} />
         <Contact />
       </main>
+
+      <ChatWidget />
 
       <Footer />
     </div>
