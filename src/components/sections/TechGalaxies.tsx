@@ -21,6 +21,11 @@ import {
   siCss,
   siJavascript,
   siDart,
+  siPython,
+  siTensorflow,
+  siScikitlearn,
+  siPytorch,
+  siNumpy,
   type SimpleIcon,
 } from 'simple-icons'
 
@@ -138,13 +143,19 @@ const iconMap: Record<string, SimpleIcon> = {
   CSS: siCss,
   JavaScript: siJavascript,
   Java: siJava,
+  Python: siPython,
+  TensorFlow: siTensorflow,
+  'scikit-learn': siScikitlearn,
+  PyTorch: siPytorch,
+  NumPy: siNumpy,
 }
 
 const stacks = {
   frontend: ['React', 'TypeScript', 'Tailwind', 'HTML', 'CSS', 'JavaScript'],
   mobile: ['React Native', 'Flutter', 'Dart'],
-  backend: ['Node.js', 'Express', 'PHP', 'Laravel', 'Java'],
+  backend: ['Node.js', 'Express', 'PHP', 'Laravel', 'Java', 'Python'],
   databases: ['MySQL', 'PostgreSQL', 'Supabase', 'Firebase'],
+  'machine learning': ['TensorFlow', 'scikit-learn', 'PyTorch', 'NumPy'],
   crm: ['GoHighLevel', 'HubSpot', 'Kajabi', 'Karta'],
   deployment: ['Hostinger', 'AWS', 'Render', 'Vercel'],
   tools: ['Vite', 'GitHub'],
