@@ -1,6 +1,54 @@
 import { Button } from '@/components/ui/button'
+import { useMemo, useState } from 'react'
 
 export function Contact() {
+  const endpointUrl = useMemo(() => import.meta.env.VITE_CONTACT_FORM_URL as string | undefined, [])
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error' | 'missing_endpoint'>('idle')
+
+  const isSubmitting = status === 'submitting'
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    if (!endpointUrl) {
+      setStatus('missing_endpoint')
+      return
+    }
+
+    setStatus('submitting')
+    try {
+      const body = new URLSearchParams({
+        firstName,
+        lastName,
+        email,
+        message,
+      })
+
+      const res = await fetch(endpointUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body,
+      })
+
+      if (!res.ok) {
+        setStatus('error')
+        return
+      }
+
+      setFirstName('')
+      setLastName('')
+      setEmail('')
+      setMessage('')
+      setStatus('success')
+    } catch {
+      setStatus('error')
+    }
+  }
+
   return (
     <section id="contact" className="relative overflow-hidden bg-black py-24 text-white">
       {/* Deep space background */}
@@ -106,37 +154,92 @@ export function Contact() {
 
       {/* Portal Container */}
       <div className="relative mx-auto max-w-4xl px-4">
-        {/* Outer Portal Ring */}
-        <div className="relative mx-auto aspect-square max-w-lg">
-          {/* Glowing outer ring */}
-          <div className="absolute inset-0 rounded-full border-4 border-cyan-400/30 shadow-[0_0_60px_rgba(34,211,238,0.3),inset_0_0_60px_rgba(34,211,238,0.1)]" />
+        {/* Portal Frame */}
+        <div className="relative mx-auto w-full max-w-2xl overflow-hidden rounded-3xl border border-cyan-400/20 bg-black/40 p-8 shadow-[0_0_60px_rgba(34,211,238,0.25),inset_0_0_60px_rgba(34,211,238,0.08)] backdrop-blur-sm sm:p-10">
+          {/* Glowing outer frame */}
+          <div className="pointer-events-none absolute inset-0 rounded-3xl border-2 border-cyan-400/20" />
           
-          {/* Rotating ring segments */}
-          <div className="absolute inset-2 rounded-full border-2 border-dashed border-cyan-400/20 animate-spin" style={{ animationDuration: '20s' }} />
-          <div className="absolute inset-4 rounded-full border border-cyan-400/10 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }} />
+          {/* Rotating segments */}
+          <div
+            className="pointer-events-none absolute inset-4 rounded-3xl border-2 border-dashed border-cyan-400/15 animate-spin"
+            style={{ animationDuration: '20s' }}
+          />
+          <div
+            className="pointer-events-none absolute inset-8 rounded-3xl border border-cyan-400/10 animate-spin"
+            style={{ animationDuration: '15s', animationDirection: 'reverse' }}
+          />
           
-          {/* Portal inner glow */}
-          <div className="absolute inset-8 rounded-full bg-gradient-to-br from-cyan-500/20 via-blue-600/30 to-purple-600/20 blur-xl" />
+          {/* Inner glow */}
+          <div className="pointer-events-none absolute inset-12 rounded-3xl bg-gradient-to-br from-cyan-500/20 via-blue-600/25 to-purple-600/20 blur-xl" />
           
-          {/* Vortex effect */}
-          <div className="absolute inset-12 rounded-full bg-gradient-to-r from-cyan-400/10 via-blue-500/20 to-cyan-400/10" />
+          {/* Vortex wash */}
+          <div className="pointer-events-none absolute inset-16 rounded-3xl bg-gradient-to-r from-cyan-400/10 via-blue-500/15 to-cyan-400/10" />
           
-          {/* Portal center content */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+          {/* Portal content */}
+          <div className="relative z-10 flex flex-col items-center justify-center text-center">
             <div className="mb-4 text-4xl">🌀</div>
             <h2 className="text-2xl font-bold tracking-wider uppercase text-cyan-100">Contact Portal</h2>
             <p className="mt-3 max-w-xs text-sm text-cyan-200/60">
               Establish connection. Send transmission through the gateway.
             </p>
             
-            <div className="mt-6 flex flex-col gap-3">
-              <Button 
-                asChild
-                className="rounded-full bg-cyan-400 text-black hover:bg-cyan-300 shadow-[0_0_20px_rgba(34,211,238,0.4)]"
-              >
-                <a href="mailto:tolentinochristian89@gmail.com">📡 Open Channel</a>
-              </Button>
-              <div className="flex gap-3">
+            <div className="mt-6 flex w-full max-w-sm flex-col gap-3">
+              <form onSubmit={onSubmit} className="flex flex-col gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <input
+                    value={firstName}
+                    onChange={(ev) => setFirstName(ev.target.value)}
+                    required
+                    placeholder="First name"
+                    autoComplete="given-name"
+                    className="h-11 rounded-full border border-cyan-400/25 bg-black/50 px-4 text-sm text-white placeholder:text-cyan-200/35 outline-none ring-1 ring-transparent transition focus:border-cyan-400/45 focus:ring-cyan-400/20"
+                  />
+                  <input
+                    value={lastName}
+                    onChange={(ev) => setLastName(ev.target.value)}
+                    required
+                    placeholder="Last name"
+                    autoComplete="family-name"
+                    className="h-11 rounded-full border border-cyan-400/25 bg-black/50 px-4 text-sm text-white placeholder:text-cyan-200/35 outline-none ring-1 ring-transparent transition focus:border-cyan-400/45 focus:ring-cyan-400/20"
+                  />
+                </div>
+                <input
+                  value={email}
+                  onChange={(ev) => setEmail(ev.target.value)}
+                  required
+                  type="email"
+                  placeholder="Email address"
+                  autoComplete="email"
+                  className="h-11 rounded-full border border-cyan-400/25 bg-black/50 px-4 text-sm text-white placeholder:text-cyan-200/35 outline-none ring-1 ring-transparent transition focus:border-cyan-400/45 focus:ring-cyan-400/20"
+                />
+                <textarea
+                  value={message}
+                  onChange={(ev) => setMessage(ev.target.value)}
+                  required
+                  placeholder="Message"
+                  rows={4}
+                  className="resize-none rounded-3xl border border-cyan-400/25 bg-black/50 px-4 py-3 text-sm text-white placeholder:text-cyan-200/35 outline-none ring-1 ring-transparent transition focus:border-cyan-400/45 focus:ring-cyan-400/20"
+                />
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="h-11 rounded-full bg-cyan-400 text-black hover:bg-cyan-300 shadow-[0_0_20px_rgba(34,211,238,0.4)] disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {isSubmitting ? 'Sending…' : 'Send Transmission'}
+                </Button>
+
+                {status === 'success' ? (
+                  <p className="text-xs tracking-wide text-cyan-200/70">Transmission received.</p>
+                ) : null}
+                {status === 'error' ? (
+                  <p className="text-xs tracking-wide text-red-200/70">Transmission failed. Try again.</p>
+                ) : null}
+                {status === 'missing_endpoint' ? (
+                  <p className="text-xs tracking-wide text-amber-200/80">Form endpoint not configured yet.</p>
+                ) : null}
+              </form>
+
+              <div className="flex flex-wrap justify-center gap-3">
                 <Button 
                   asChild 
                   variant="outline"
@@ -182,10 +285,10 @@ export function Contact() {
           </div>
           
           {/* Portal corner markers */}
-          <div className="absolute -left-2 top-1/2 h-6 w-6 -translate-y-1/2 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
-          <div className="absolute -right-2 top-1/2 h-6 w-6 -translate-y-1/2 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
-          <div className="absolute left-1/2 -top-2 h-6 w-6 -translate-x-1/2 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
-          <div className="absolute left-1/2 -bottom-2 h-6 w-6 -translate-x-1/2 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+          <div className="pointer-events-none absolute left-4 top-4 h-4 w-4 rounded bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+          <div className="pointer-events-none absolute right-4 top-4 h-4 w-4 rounded bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+          <div className="pointer-events-none absolute left-4 bottom-4 h-4 w-4 rounded bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+          <div className="pointer-events-none absolute right-4 bottom-4 h-4 w-4 rounded bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
         </div>
 
         {/* Portal status indicators */}
