@@ -276,7 +276,7 @@ export function Contact() {
                   size="sm"
                   className="rounded-full border-cyan-400/30 bg-black/50 text-cyan-300 hover:bg-cyan-400/10"
                 >
-                  <a href="https://www.instagram.com/xtian.env" target="_blank" rel="noreferrer">
+                  <a href="https://www.instagram.com/xtian.jsx" target="_blank" rel="noreferrer">
                     Instagram
                   </a>
                 </Button>
