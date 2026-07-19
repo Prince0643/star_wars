@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 
 import type { GraphicWork } from '@/data/graphicWorks'
@@ -108,9 +109,10 @@ export function GraphicWorks({ works }: Props) {
         </div>
       </div>
 
-      {selectedWork ? (
+      {selectedWork
+        ? createPortal(
         <div
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/88 px-4 py-6 backdrop-blur-md sm:px-6"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/[0.92] px-4 py-6 backdrop-blur-sm sm:px-6"
           role="dialog"
           aria-modal="true"
           aria-label={`Previewing ${selectedWork.title}`}
@@ -144,13 +146,13 @@ export function GraphicWorks({ works }: Props) {
           ) : null}
 
           <div
-            className="flex max-h-[86vh] w-full max-w-6xl flex-col items-center gap-4"
+            className="flex max-h-[88vh] w-full max-w-[min(92vw,1200px)] flex-col items-center gap-4"
             onClick={(event) => event.stopPropagation()}
           >
             <img
               src={selectedWork.imageSrc}
               alt={selectedWork.title}
-              className="max-h-[78vh] w-auto max-w-full rounded-xl object-contain shadow-[0_28px_90px_rgba(0,0,0,0.55)]"
+              className="max-h-[82vh] w-auto max-w-full rounded-xl object-contain shadow-[0_28px_90px_rgba(0,0,0,0.55)]"
             />
             <div className="flex w-full max-w-3xl items-center justify-between gap-4 text-sm text-white/72">
               {hasMultipleWorks ? (
@@ -194,8 +196,10 @@ export function GraphicWorks({ works }: Props) {
               <ChevronRight className="h-6 w-6" aria-hidden="true" />
             </button>
           ) : null}
-        </div>
-      ) : null}
+        </div>,
+        document.body,
+      )
+        : null}
     </section>
   )
 }
